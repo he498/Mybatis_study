@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace 命名空间，绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.dao.UserMapper">
+<!--    查询-->
+    <select id="getUserList" resultType="com.pojo.User">
+        select * from mybatis.user
+    </select>
+
+<!--    在mapper插入通配符也可以，存在sql注入-->
+    <select id="getUserLike" resultType="com.pojo.User">
+        select * from mybatis.user where name like "%"#{value}"%"
+    </select>
+
+<!--    通过id查询-->
+    <select id="getUserById" parameterType="int" resultType="com.pojo.User">
+        select * from mybatis.user where id = #{id}
+    </select>
+<!--    <select id="getUserById2" parameterType="map" resultType="com.pojo.User">-->
+<!--        select * from mybatis.user where id = #{id} and name = #{name};-->
+<!--    </select>-->
+
+<!--    insert-->
+    <insert id="addUser" parameterType="com.pojo.User">
+        insert into mybatis.user (id,name,pwd) values (#{id},#{name},#{pwd});
+    </insert>
+<!--    对象中的属性，可以取出来
+        传递map的key
+        -->
+    <insert id="addUser2" parameterType="map">
+        insert into mybatis.user (id,pwd) values (#{userid},#{password});
+    </insert>
+
+<!--    update-->
+    <update id="updateUser" parameterType="com.pojo.User">
+        update mybatis.user set name=#{name},pwd=#{pwd} where  id = #{id};
+    </update>
+<!--    delete-->
+    <delete id="deleteUser" parameterType="int">
+        delete from mybatis.user where id = #{id};
+    </delete>
+</mapper>
